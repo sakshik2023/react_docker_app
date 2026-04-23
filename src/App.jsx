@@ -1,19 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = () => {
+    if (task.trim() === "") return;
+    setTodos([...todos, task]);
+    setTask("");
+  };
+
+  const deleteTodo = (index) => {
+    const newTodos = todos.filter((_, i) => i !== index);
+    setTodos(newTodos);
+  };
 
   return (
-    <>
-      <div>
-        <h1>Sakshi</h1>
+    <div className="container">
+      <h1>Simple Todo App</h1>
+
+      <div className="input-section">
+        <input
+          type="text"
+          placeholder="Enter a task..."
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <button onClick={addTodo}>Add</button>
       </div>
-    </>
-  )
+
+      <ul className="todo-list">
+        {todos.map((todo, index) => (
+          <li key={index}>
+            {todo}
+            <button onClick={() => deleteTodo(index)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default App
+export default App;
